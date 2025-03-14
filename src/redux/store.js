@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import songsReducer from './songs/songsSlice'; // Remove the "songs/" part
+import songsReducer from './songs/songsSlice';
 
 const store = configureStore({
   reducer: {
