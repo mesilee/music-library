@@ -1,4 +1,7 @@
+/** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { createSongRequest } from '../redux/songs/songsSlice';
 import styled from '@emotion/styled';
 
 const FormContainer = styled.div`
@@ -29,10 +32,12 @@ const FormButton = styled.button`
 
 function SongForm() {
   const [title, setTitle] = useState('');
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission here (we'll add this later)
+    dispatch(createSongRequest({ title }));
+    setTitle('');
   };
 
   return (

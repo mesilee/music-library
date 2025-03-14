@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSongsRequest } from '../redux/songs/songsSlice';
+import { fetchSongsRequest, updateSongRequest } from '../redux/songs/songsSlice';
 import styled from '@emotion/styled';
 
 const SongListContainer = styled.div`
@@ -24,26 +24,55 @@ const SongListItem = styled.li`
 `;
 
 function SongList() {
-  const dispatch = useDispatch();
-  const { songs, loading, error } = useSelector((state) => state.songs);
-
-  useEffect(() => {
-    dispatch(fetchSongsRequest());
-  }, [dispatch]);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-
-  return (
-    <SongListContainer>
-      <SongListTitle>Song List</SongListTitle>
-      <SongListUl>
-        {songs.map((song) => (
-          <SongListItem key={song.id}>{song.title}</SongListItem>
-        ))}
-      </SongListUl>
-    </SongListContainer>
-  );
-}
-
-export default SongList;
+    const dispatch = useDispatch();
+    const { songs, loading, error } = useSelector((state) => state.songs);
+    const [editingSong, setEditingSong] = useState(null);
+    const [editedTitle, setEditedTitle] = useState('');
+  
+    useEffect(() => {
+      dispatch(fetchSongsRequest());
+    }, [dispatch]);
+  
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
+  
+    return (
+      <SongListContainer>
+        <SongListTitle>Song List</SongListTitle>
+        <SongListUl>
+          {songs.map((song) => (
+            <SongListItem key={song.id}>
+              {editingSong && editingSong.id === song.id ? (
+                <> {/* Use a fragment here */}
+                  <input
+                    type="text"
+                    value={editedTitle}
+                    onChange={(e) => setEditedTitle(e.target.value)}
+                  />
+                  <button onClick={() => handleSave(song)}>Save</button>
+                  <button onClick={() => setEditingSong(null)}>Cancel</button>
+                </>
+              ) : (
+                <> {/* And here */}
+                  {song.title}
+                  <button onClick={() => handleEdit(song)}>Edit</button>
+                </>
+              )}
+            </SongListItem>
+          ))}
+        </SongListUl>
+      </SongListContainer>
+    );
+  
+    function handleEdit(song) {
+      setEditingSong(song);
+      setEditedTitle(song.title);
+    }
+  
+    function handleSave(song) {
+      dispatch(updateSongRequest({ id: song.id, title: editedTitle }));
+      setEditingSong(null);
+    }
+  }
+  
+  export default SongList;
