@@ -9,8 +9,11 @@ import {
   updateSongRequest,
   updateSongSuccess,
   updateSongFailure,
+  deleteSongRequest,
+  deleteSongSuccess,
+  deleteSongFailure,
 } from './songsSlice';
-import { getSongs, createSong, updateSong } from '../../services/api';
+import { getSongs, createSong, updateSong, deleteSong } from '../../services/api';
 
 function* fetchSongsSaga() {
   try {
@@ -39,10 +42,20 @@ function* updateSongSaga(action) {
   }
 }
 
+function* deleteSongSaga(action) {
+  try {
+    yield call(deleteSong, action.payload);
+    yield put(deleteSongSuccess(action.payload));
+  } catch (error) {
+    yield put(deleteSongFailure(error.message));
+  }
+}
+
 function* songsSaga() {
   yield takeLatest(fetchSongsRequest.type, fetchSongsSaga);
   yield takeLatest(createSongRequest.type, createSongSaga);
   yield takeLatest(updateSongRequest.type, updateSongSaga);
+  yield takeLatest(deleteSongRequest.type, deleteSongSaga);
 }
 
 export default songsSaga;

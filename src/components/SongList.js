@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSongsRequest, updateSongRequest } from '../redux/songs/songsSlice';
+import { fetchSongsRequest, updateSongRequest, deleteSongRequest } from '../redux/songs/songsSlice';
 import styled from '@emotion/styled';
 
 const SongListContainer = styled.div`
@@ -56,6 +56,7 @@ function SongList() {
                 <> {/* And here */}
                   {song.title}
                   <button onClick={() => handleEdit(song)}>Edit</button>
+                  <button onClick={() => handleDelete(song.id)}>Delete</button> {/* Add Delete button */}
                 </>
               )}
             </SongListItem>
@@ -73,6 +74,9 @@ function SongList() {
       dispatch(updateSongRequest({ id: song.id, title: editedTitle }));
       setEditingSong(null);
     }
+    function handleDelete(songId) { // Add handleDelete function
+        dispatch(deleteSongRequest(songId));
+      }
   }
   
   export default SongList;

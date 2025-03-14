@@ -34,21 +34,32 @@ const songsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    // ... other imports
-updateSongRequest: (state) => {
-  state.loading = true;
-  state.error = null;
-},
-updateSongSuccess: (state, action) => {
-  state.loading = false;
-  state.songs = state.songs.map((song) =>
-    song.id === action.payload.id ? action.payload : song
-  );
-},
-updateSongFailure: (state, action) => {
-  state.loading = false;
-  state.error = action.payload;
-},
+    updateSongRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    updateSongSuccess: (state, action) => {
+      state.loading = false;
+      state.songs = state.songs.map((song) =>
+        song.id === action.payload.id ? action.payload : song
+      );
+    },
+    updateSongFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    deleteSongRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    deleteSongSuccess: (state, action) => {
+      state.loading = false;
+      state.songs = state.songs.filter((song) => song.id !== action.payload);
+    },
+    deleteSongFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -59,9 +70,12 @@ export const {
   createSongRequest,
   createSongSuccess,
   createSongFailure,
-  updateSongRequest, // Add updateSongRequest to the export
-  updateSongSuccess, // Add updateSongSuccess to the export
-  updateSongFailure, // Add updateSongFailure to the export
+  updateSongRequest,
+  updateSongSuccess,
+  updateSongFailure,
+  deleteSongRequest,
+  deleteSongSuccess,
+  deleteSongFailure,
 } = songsSlice.actions;
 
 export default songsSlice.reducer;
