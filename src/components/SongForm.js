@@ -8,11 +8,14 @@ const FormContainer = styled.div`
   padding: 20px;
   border: 1px solid #eee;
   margin-bottom: 20px;
+  width: 300px; /* Set a fixed width */
+  margin: 20px auto; /* Center the form */
 `;
 
 const FormTitle = styled.h2`
   color: #333;
   margin-bottom: 10px;
+  text-align: center; /* Center the title */
 `;
 
 const FormInput = styled.input`
@@ -20,6 +23,8 @@ const FormInput = styled.input`
   margin-bottom: 10px;
   width: 100%;
   box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 `;
 
 const FormButton = styled.button`
@@ -28,6 +33,8 @@ const FormButton = styled.button`
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 4px;
+  width: 100%; /* Make the button full width */
 `;
 
 function SongForm() {
